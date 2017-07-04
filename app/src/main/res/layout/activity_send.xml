@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jiangda.qiucheng.birdspreliminary.SendActivity">
+
+    <include layout="@layout/title"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TableLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <!--TableRow 表示行，每行里面就可以 通过其他View来实现我们想要的方格-->
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#ff000000">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:text="钛雷炮发射器"
+                    android:textColor="#ff000000"
+                    android:textSize="25.0sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <!--TableRow 设备名称-->
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff000000" >
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:padding="6.0dip"
+                    android:text="设备名称"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/device_name"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginRight="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:ellipsize="marquee"
+                    android:gravity="center"
+                    android:textColor="#ff000000" />
+            </TableRow>
+
+            <!--TableRow 设备编号-->
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff000000" >
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:padding="6.0dip"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold"
+                    android:text="设备编号"/>
+
+                <TextView
+                    android:id="@+id/device_Id"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginRight="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:textColor="#ff000000" />
+            </TableRow>
+
+            <!--TableRow 发射次数-->
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff000000" >
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:padding="6.0dip"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold"
+                    android:text="发射次数"/>
+
+                <TextView
+                    android:id="@+id/launch_nums"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginRight="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:textColor="#ff000000" />
+            </TableRow>
+
+            <!--TableRow 设备状态-->
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff000000" >
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:padding="6.0dip"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold"
+                    android:text="设备状态"/>
+
+                <TextView
+                    android:id="@+id/device_status"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginRight="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:textColor="#ff000000" />
+            </TableRow>
+
+            <!--TableRow 炮弹数量-->
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff000000" >
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:padding="6.0dip"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold"
+                    android:text="炮弹数量"/>
+
+                <TextView
+                    android:id="@+id/shell_nums"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginRight="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:textColor="#ff000000" />
+            </TableRow>
+
+            <!--TableRow 蓄电池-->
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff000000" >
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:padding="6.0dip"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold"
+                    android:text="蓄电池"/>
+
+                <TextView
+                    android:id="@+id/storage"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginRight="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:textColor="#ff000000" />
+            </TableRow>
+
+        </TableLayout>
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/timg"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TableLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--</TableRow>-->
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff000000" >
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:text="2"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:textColor="#ff000000"
+                    />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:text="4"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:textColor="#ff000000" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:text="6"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:textColor="#ff000000" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ffffffff"
+                    android:gravity="center"
+                    android:text="7"
+                    android:textColor="#ff000000"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/repairtime"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="1.0dip"
+                    android:layout_marginRight="1.0dip"
+                    android:layout_marginTop="1.0dip"
+                    android:layout_weight="1.0"
+                    android:text="8"
+                    android:background="#ffffffff"
+                    android:ellipsize="marquee"
+                    android:gravity="center"
+                    android:textColor="#ff000000" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff000000" >
+
+                <ImageButton
+                    android:id="@+id/imageBtn1"
+                    style="@style/ButtonBase"/>
+                <ImageButton
+                    android:id="@+id/imageBtn2"
+                    style="@style/ButtonBase"/>
+
+                <ImageButton
+                    android:id="@+id/imageBtn3"
+                    style="@style/ButtonBase"/>
+
+                <ImageButton
+                    android:id="@+id/imageBtn4"
+                    style="@style/ButtonBase"/>
+
+                <ImageButton
+                    android:id="@+id/imageBtn5"
+                    style="@style/ButtonBase"/>
+
+                <ImageButton
+                    android:id="@+id/imageBtn6"
+                    style="@style/ButtonBase"/>
+
+                <ImageButton
+                    android:id="@+id/imageBtn7"
+                    style="@style/ButtonBase"/>
+
+                <ImageButton
+                    android:id="@+id/imageBtn8"
+                    style="@style/ButtonBase"
+                    android:layout_marginRight="1.0dip"/>
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+</LinearLayout>
