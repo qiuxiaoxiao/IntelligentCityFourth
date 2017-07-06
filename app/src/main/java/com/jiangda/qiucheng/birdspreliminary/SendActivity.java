@@ -33,6 +33,9 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     private TextView storage;
     private boolean isClick = true;
     private Button titleback;
+    private Button device_refresh;
+    int launchNums = 0;
+    int shellNums = 0;
 
     /**
      * 蓝牙
@@ -49,6 +52,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     public static final int MESSAGE_WRITE = 3;         // 给硬件传数据，暂不需要，看具体需求
     public static final int MESSAGE_DEVICE_NAME = 4;  // 设备名字
     public static final int MESSAGE_TOAST = 5;         // Toast
+
     //传感器 ,这里默认同时需要和三个硬件连接，分别设置id 1,2,3进行区分，demo中实际只用到 MAGIKARE_SENSOR_DOWN = 1
     //可以根据情况自行添加删除
     public static final int MAGIKARE_SENSOR_DOWN = 1;
@@ -57,6 +61,20 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     public static byte[] m_send_data_down1; //传感器的数据 ,demo中我们只需要这一个，因为只有一个硬件设备
     private String readMessage;
 
+    //电压
+    int storage1=0;
+    int storage2=0;
+    String storageAll;
+
+    //炮位状态
+    String cannon0;
+    String cannon1;
+    String cannon2;
+    String cannon3;
+    String cannon4;
+    String cannon5;
+    String cannon6;
+    String cannon7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +107,8 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         imageButton8.setOnClickListener(this);
         titleback = (Button) findViewById(R.id.title_back);
         titleback.setOnClickListener(this);
+        device_refresh = (Button)findViewById(R.id.device_refresh);
+        device_refresh.setOnClickListener(this);
 
 
         device_name = (TextView) findViewById(R.id.device_name);
@@ -102,8 +122,8 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         byte[] message = new byte[9];
-        message[0] = 0x01;
-        message[1] = 0x01;
+        message[0] = 0x00;
+        message[1] = 0x42;
         message[2] = 0x50;
         message[3] = 0x00;
         message[4] = 0x00;
@@ -112,39 +132,54 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         message[7] = (byte) 0xff;
         message[8] = 0x00;
         switch (v.getId()) {
+            case R.id.device_refresh:
+                sendMessage(message);
+                setUpAllTable();
+                break;
             case R.id.imageBtn1:
                 ImageClick(v);
                 message[8] = 0x01;
-//                String message = ("00 00 00");
                 sendMessage(message);
-//                sendMessage(Utils.stringConvert2ByteArray(message));
                 break;
             case R.id.imageBtn2:
                 ImageClick(v);
+                message[8] = 0x02;
+                sendMessage(message);
                 break;
             case R.id.imageBtn3:
                 ImageClick(v);
+                message[8] = 0x03;
+                sendMessage(message);
                 break;
             case R.id.imageBtn4:
                 ImageClick(v);
+                message[8] = 0x04;
+                sendMessage(message);
                 break;
             case R.id.imageBtn5:
                 ImageClick(v);
+                message[8] = 0x05;
+                sendMessage(message);
                 break;
             case R.id.imageBtn6:
                 ImageClick(v);
+                message[8] = 0x06;
+                sendMessage(message);
                 break;
             case R.id.imageBtn7:
                 ImageClick(v);
+                message[8] = 0x07;
+                sendMessage(message);
                 break;
             case R.id.imageBtn8:
                 ImageClick(v);
+                message[8] = 0x08;
+                sendMessage(message);
                 break;
             case R.id.title_back:
                 Intent intent = new Intent(SendActivity.this, MainActivity.class);
                 startActivity(intent);
                 break;
-
             default:
                 break;
         }
@@ -153,15 +188,25 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     //点击后切换背景
     private void ImageClick(View v) {
         if (isClick) {
+            setShellLaunch();
             ((ImageButton) v).setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
         }
     }
 
+    public void setShellLaunch(){
+        shellNums--;
+        String shell_Nums = Integer.toString(shellNums);
+        shell_nums.setText(shell_Nums);
+
+        launchNums++;
+        String launch_Nums = Integer.toString(launchNums);
+        launch_nums.setText(launch_Nums);
+    }
 
     /**
      * 蓝牙
      */
-    private void InitBluetooth() {
+    private void InitBluetooth(){
         //获取蓝牙适配器
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // 1、判断设备是否支持蓝牙功能
@@ -202,14 +247,13 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             switch (msg.what) {
                 case MESSAGE_WRITE://给硬件传数据
                     m_send_data_down1 = (byte[]) msg.obj;
-//                    String writeMessage = new String(m_send_data_down1);
                     Log.i("SendActivityWrite", Utils.byteConvert2String(m_send_data_down1,0,m_send_data_down1.length));
                     break;
                 case MESSAGE_READ://读取数据
                     m_receive_data_down1 = (byte[]) msg.obj;
                     readMessage = Utils.byteConvert2String(m_receive_data_down1, 0, msg.arg1);
-                    Log.i("SendActivityRead", readMessage);
-                    setUpTable();
+//                    Log.i("SendActivityRead", readMessage);
+//                    setUpTable();
                     break;
                 case MESSAGE_STATE_CHANGE://状态改变
 //                    连接状态
@@ -226,15 +270,11 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case MESSAGE_DEVICE_NAME://设备名字
                     mConnectedDeviceName = msg.getData().getString("device_name");
-//                    Log.i("bluetooth","成功连接到:"+mConnectedDeviceName);
                     Toast.makeText(getApplicationContext(), "成功连接到设备" + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                     break;
                 case MESSAGE_TOAST://Toast
                     int index = msg.getData().getInt("device_id");
                     Toast.makeText(getApplicationContext(), msg.getData().getString("toast"), Toast.LENGTH_SHORT).show();
-                    //当失去设备或者不能连接设备时，重新连接
-//                    Log.d("Magikare","当失去设备或者不能连接设备时，重新连接");
-
                     //重新连接硬件设备
                     if (mBluetoothService != null) {
                         switch (index) {
@@ -309,16 +349,121 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             String[] read_array = readMessage.split(" ");
             for (int i = 0; i < read_array.length; i++) {
                 Log.i("返回的数据", i + read_array[i]);
+                if(i == 1){ //电压整数位
+                    storage1 = Integer.parseInt(read_array[1],16);
+                }else if (i == 2){ //电压小数位
+                    storage2 = Integer.parseInt(read_array[2],16);
+                    storageAll = Integer.toString(storage1) + "." + Integer.toString(storage2);
+                    storage.setText(storageAll);
+                }else if (i == 4){//炮位状态
+                    int cannon8 = Integer.parseInt(read_array[4],16);
+                    String cannon8Status= Integer.toBinaryString(cannon8);
+                    int x = cannon8Status.length();
+                    for (int a=0;a<x;a++){
+                        Log.i("ss",a + ":" + String.valueOf(cannon8Status.charAt(a)));
+                        switch (a){
+                            case 0:
+                                cannon0 = String.valueOf(cannon8Status.charAt(0)) ;
+                                if (cannon0.equals("1")){
+                                    shellNums++;
+                                    imageButton1.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                                }else if (cannon0.equals("0")){
+                                    imageButton1.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                                }
+                                break;
+                            case 1:
+                                cannon1 = String.valueOf(cannon8Status.charAt(1));
+                                if (cannon1.equals("1")){
+                                    shellNums++;
+                                    imageButton2.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                                }else if (cannon1.equals("0")){
+                                    imageButton2.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                                }
+                                break;
+                            case 2:
+                                cannon2 = String.valueOf(cannon8Status.charAt(2));
+                                if (cannon2.equals("1")){
+                                    shellNums++;
+                                    imageButton3.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                                }else if (cannon2.equals("0")){
+                                    imageButton2.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                                }
+                                break;
+                            case 3:
+                                cannon3 = String.valueOf(cannon8Status.charAt(3));
+                                if (cannon3.equals("1")){
+                                    shellNums++;
+                                    imageButton4.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                                }else if (cannon3.equals("0")){
+                                    imageButton4.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                                }
+                                break;
+                            case 4:
+                                cannon4 = String.valueOf(cannon8Status.charAt(4));
+                                if (cannon4.equals("1")){
+                                    shellNums++;
+                                    imageButton5.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                                }else if (cannon4.equals("0")){
+                                    imageButton5.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                                }
+                                break;
+                            case 5:
+                                cannon5 = String.valueOf(cannon8Status.charAt(5));
+                                if (cannon5.equals("1")){
+                                    shellNums++;
+                                    imageButton6.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                                }else if (cannon5.equals("0")){
+                                    imageButton6.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                                }
+                                break;
+                            case 6:
+                                cannon6 = String.valueOf(cannon8Status.charAt(6));
+                                if (cannon6.equals("1")){
+                                    shellNums++;
+                                    imageButton7.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                                }else if (cannon6.equals("0")){
+                                    imageButton7.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                                }
+                                break;
+                            case 7:
+                                cannon7 = String.valueOf(cannon8Status.charAt(7));
+                                if (cannon7.equals("1")){
+                                    shellNums++;
+                                    imageButton8.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                                }else if (cannon7.equals("0")){
+                                    imageButton8.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                                }
+                                break;
+                        }
+                    }
+                }else if (i == 7){
+                    if (read_array[7].equals("00")){
+                        Log.i("炮类型","煤气炮");
+                        device_name.setText("煤气炮");
+                    }else if (read_array[7].equals("01")){
+                        Log.i("炮类型","钛雷炮");
+                        device_name.setText("钛雷炮");
+                    }else if (read_array[7].equals("02")){
+                        Log.i("炮类型","二脚炮");
+                        device_name.setText("二脚炮");
+                    }
+                }
             }
         }
-//        if (str != null && str != " "){
-//            device_Id.setText("");
-//            device_name.setText("");
-//            device_status.setText("");
-//            shell_nums.setText("");
-//            launch_nums.setText("");
-//
-//            storage.setText("");
-//        }
+    }
+
+
+    private void setUpAllTable(){
+        launchNums = 0;
+        shellNums = 0;
+        setUpTable();
+
+        String S_launchNums = Integer.toString(launchNums);
+        String S_shellNums = Integer.toString(shellNums);
+
+        device_Id.setText("1");
+        device_status.setText("可控");
+        launch_nums.setText(S_launchNums);
+        shell_nums.setText(S_shellNums);
     }
 }

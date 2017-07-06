@@ -45,7 +45,7 @@
 
     <style name="ButtonBase">
         <item name="android:background">#ffffff</item>
-        <item name="android:src">@drawable/credit_level_filling</item>
+        <item name="android:src">@drawable/credit_level</item>
         <item name="android:textColor">#ff000000</item>
         <item name="android:gravity">center</item>
         <item name="android:scaleType">fitCenter</item>

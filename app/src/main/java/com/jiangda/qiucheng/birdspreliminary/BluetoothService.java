@@ -153,14 +153,12 @@ public class BluetoothService {
             Log.i(TAG, "BEGIN mConnectedThread");
             byte[] tempInputBuffer = new byte[1024];
             int bytes;
-//            while(true){
             while(mState == STATE_CONNECTED){
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(tempInputBuffer);
                     mHandler.obtainMessage(SendActivity.MESSAGE_READ, bytes, -1, tempInputBuffer).sendToTarget();
-//                    Log.i(TAG,ConvertUtils.getInstance().bytesToHexString(tempInputBuffer));
-                    Log.i(TAG, Utils.byteConvert2String(tempInputBuffer ,0, tempInputBuffer.length));
+//                    Log.i(TAG, Utils.byteConvert2String(tempInputBuffer ,0, tempInputBuffer.length));
 
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);

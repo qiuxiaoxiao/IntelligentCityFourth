@@ -23,17 +23,17 @@ public class MarkerOverlay {
     private ArrayList<Marker> mMarkers = new ArrayList<Marker>();
 
 
-//    public MarkerOverlay(AMap amap,List<LatLng> points){
-//        this.aMap = amap;
-//        initPointList(points);
-//    }
-
-    public MarkerOverlay(AMap amap,List<LatLng> points,LatLng centerPoint){
+    public MarkerOverlay(AMap amap,List<LatLng> points){
         this.aMap = amap;
-        this.centerPoint = centerPoint;
         initPointList(points);
-
     }
+
+//    public MarkerOverlay(AMap amap,List<LatLng> points,LatLng centerPoint){
+//        this.aMap = amap;
+//        this.centerPoint = centerPoint;
+//        initPointList(points);
+//
+//    }
 
     //初始化list
     private void initPointList(List<LatLng> points){
@@ -53,8 +53,9 @@ public class MarkerOverlay {
         try {
             for (int i = 0;i < pointList.size(); i++){
                 Marker marker = aMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
                         .position(pointList.get(i))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+                        .title("设备" + i));
                 marker.setObject(i);
                 mMarkers.add(marker);
             }
@@ -82,8 +83,6 @@ public class MarkerOverlay {
             if (aMap == null){
                 return;
             }
-//            centerMarker.setVisible(true);
-//            centerMarker.showInfoWindow();
             LatLngBounds bounds = getLatLngBounds(centerPoint,pointList);
             aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,50));
         }
