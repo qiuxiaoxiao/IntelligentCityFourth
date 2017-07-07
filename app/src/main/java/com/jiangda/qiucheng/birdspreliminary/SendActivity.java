@@ -15,6 +15,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class SendActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ImageButton imageButton1;
@@ -58,6 +61,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     public static final int MAGIKARE_SENSOR_DOWN = 1;
     public static float[] m_receive_data_down; //传感器的数据 ,demo中我们只需要这一个，因为只有一个硬件设备，
     public static byte[] m_receive_data_down1; //传感器的数据 ,demo中我们只需要这一个，因为只有一个硬件设备
+//    public static char[] m_receive_data_down1; //传感器的数据 ,demo中我们只需要这一个，因为只有一个硬件设备
     public static byte[] m_send_data_down1; //传感器的数据 ,demo中我们只需要这一个，因为只有一个硬件设备
     private String readMessage;
 
@@ -65,6 +69,8 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     int storage1=0;
     int storage2=0;
     String storageAll;
+
+
 
     //炮位状态
     String cannon0;
@@ -133,48 +139,59 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         message[8] = 0x00;
         switch (v.getId()) {
             case R.id.device_refresh:
+                message[5] = (byte) 0xaa;
+                message[6] = (byte) 0xaa;
+                message[7] = (byte) 0xaa;
                 sendMessage(message);
                 setUpAllTable();
                 break;
             case R.id.imageBtn1:
                 ImageClick(v);
-                message[8] = 0x01;
+                message[8] = 0x08;
                 sendMessage(message);
+                paowei();
                 break;
             case R.id.imageBtn2:
                 ImageClick(v);
-                message[8] = 0x02;
+                message[8] = 0x07;
                 sendMessage(message);
+                paowei();
                 break;
             case R.id.imageBtn3:
                 ImageClick(v);
-                message[8] = 0x03;
+                message[8] = 0x06;
                 sendMessage(message);
+                paowei();
                 break;
             case R.id.imageBtn4:
                 ImageClick(v);
-                message[8] = 0x04;
+                message[8] = 0x05;
                 sendMessage(message);
+                paowei();
                 break;
             case R.id.imageBtn5:
                 ImageClick(v);
-                message[8] = 0x05;
+                message[8] = 0x04;
                 sendMessage(message);
+                paowei();
                 break;
             case R.id.imageBtn6:
                 ImageClick(v);
-                message[8] = 0x06;
+                message[8] = 0x03;
                 sendMessage(message);
+                paowei();
                 break;
             case R.id.imageBtn7:
                 ImageClick(v);
-                message[8] = 0x07;
+                message[8] = 0x02;
                 sendMessage(message);
+                paowei();
                 break;
             case R.id.imageBtn8:
                 ImageClick(v);
-                message[8] = 0x08;
+                message[8] = 0x01;
                 sendMessage(message);
+                paowei();
                 break;
             case R.id.title_back:
                 Intent intent = new Intent(SendActivity.this, MainActivity.class);
@@ -251,8 +268,10 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case MESSAGE_READ://读取数据
                     m_receive_data_down1 = (byte[]) msg.obj;
+
+                    readMessage = msg.obj.toString();
                     readMessage = Utils.byteConvert2String(m_receive_data_down1, 0, msg.arg1);
-//                    Log.i("SendActivityRead", readMessage);
+                    Log.i("SendActivityRead", readMessage);
 //                    setUpTable();
                     break;
                 case MESSAGE_STATE_CHANGE://状态改变
@@ -350,13 +369,25 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
             for (int i = 0; i < read_array.length; i++) {
                 Log.i("返回的数据", i + read_array[i]);
                 if(i == 1){ //电压整数位
-                    storage1 = Integer.parseInt(read_array[1],16);
+//                    storage1 = Integer.parseInt(read_array[1],16);
+                    storage1 = m_receive_data_down1[1];
+                    if (storage1 < 0){
+                        storage1+= 256;
+                    }
                 }else if (i == 2){ //电压小数位
-                    storage2 = Integer.parseInt(read_array[2],16);
+//                    storage2 = Integer.parseInt(read_array[2],16);
+                    storage2 = m_receive_data_down1[2];
+                    if (storage2 < 0){
+                        storage2+= 256;
+                    }
                     storageAll = Integer.toString(storage1) + "." + Integer.toString(storage2);
                     storage.setText(storageAll);
                 }else if (i == 4){//炮位状态
-                    int cannon8 = Integer.parseInt(read_array[4],16);
+//                    int cannon8 = Integer.parseInt(read_array[4],16);
+                    int cannon8 = m_receive_data_down1[4];
+                    if (cannon8<0){
+                        cannon8 += 256;
+                    }
                     String cannon8Status= Integer.toBinaryString(cannon8);
                     int x = cannon8Status.length();
                     for (int a=0;a<x;a++){
@@ -386,7 +417,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                     shellNums++;
                                     imageButton3.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
                                 }else if (cannon2.equals("0")){
-                                    imageButton2.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                                    imageButton3.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
                                 }
                                 break;
                             case 3:
@@ -453,6 +484,91 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    private void paowei() {
+        int cannon8 = m_receive_data_down1[4];
+        if (cannon8 < 0) {
+            cannon8 += 256;
+        }
+        String cannon8Status = Integer.toBinaryString(cannon8);
+        int x = cannon8Status.length();
+        for (int a = 0; a < x; a++) {
+            Log.i("ss", a + ":" + String.valueOf(cannon8Status.charAt(a)));
+            switch (a) {
+                case 0:
+                    cannon0 = String.valueOf(cannon8Status.charAt(0));
+                    if (cannon0.equals("1")) {
+                        shellNums++;
+                        imageButton1.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                    } else if (cannon0.equals("0")) {
+                        imageButton1.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                    }
+                    break;
+                case 1:
+                    cannon1 = String.valueOf(cannon8Status.charAt(1));
+                    if (cannon1.equals("1")) {
+                        shellNums++;
+                        imageButton2.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                    } else if (cannon1.equals("0")) {
+                        imageButton2.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                    }
+                    break;
+                case 2:
+                    cannon2 = String.valueOf(cannon8Status.charAt(2));
+                    if (cannon2.equals("1")) {
+                        shellNums++;
+                        imageButton3.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                    } else if (cannon2.equals("0")) {
+                        imageButton3.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                    }
+                    break;
+                case 3:
+                    cannon3 = String.valueOf(cannon8Status.charAt(3));
+                    if (cannon3.equals("1")) {
+                        shellNums++;
+                        imageButton4.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                    } else if (cannon3.equals("0")) {
+                        imageButton4.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                    }
+                    break;
+                case 4:
+                    cannon4 = String.valueOf(cannon8Status.charAt(4));
+                    if (cannon4.equals("1")) {
+                        shellNums++;
+                        imageButton5.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                    } else if (cannon4.equals("0")) {
+                        imageButton5.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                    }
+                    break;
+                case 5:
+                    cannon5 = String.valueOf(cannon8Status.charAt(5));
+                    if (cannon5.equals("1")) {
+                        shellNums++;
+                        imageButton6.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                    } else if (cannon5.equals("0")) {
+                        imageButton6.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                    }
+                    break;
+                case 6:
+                    cannon6 = String.valueOf(cannon8Status.charAt(6));
+                    if (cannon6.equals("1")) {
+                        shellNums++;
+                        imageButton7.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                    } else if (cannon6.equals("0")) {
+                        imageButton7.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                    }
+                    break;
+                case 7:
+                    cannon7 = String.valueOf(cannon8Status.charAt(7));
+                    if (cannon7.equals("1")) {
+                        shellNums++;
+                        imageButton8.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
+                    } else if (cannon7.equals("0")) {
+                        imageButton8.setImageDrawable(getResources().getDrawable(R.drawable.credit_level));
+                    }
+            }
+        }
+    }
+
     private void setUpAllTable(){
         launchNums = 0;
         shellNums = 0;
@@ -461,7 +577,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
         String S_launchNums = Integer.toString(launchNums);
         String S_shellNums = Integer.toString(shellNums);
 
-        device_Id.setText("1");
+        device_Id.setText("6");
         device_status.setText("可控");
         launch_nums.setText(S_launchNums);
         shell_nums.setText(S_shellNums);

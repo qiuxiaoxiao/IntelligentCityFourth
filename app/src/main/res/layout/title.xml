@@ -11,7 +11,7 @@
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:background="#ffffff"
-        android:text="Back"
+        android:text="返回"
         android:textColor="#000000"/>
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="#ffffff"
-        android:text="Birds"
+        android:text="智能防护"
         android:textSize="24sp"/>
     <Button
         android:layout_width="wrap_content"
@@ -29,6 +29,6 @@
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:background="#ffffff"
-        android:text="Produce"
+        android:text="产品信息"
         android:textColor="#000000"/>
 </LinearLayout>
