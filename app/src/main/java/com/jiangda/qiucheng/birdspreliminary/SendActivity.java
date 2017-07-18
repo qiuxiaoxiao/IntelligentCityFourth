@@ -149,49 +149,49 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                 ImageClick(v);
                 message[8] = 0x08;
                 sendMessage(message);
-                paowei();
+//                paowei();
                 break;
             case R.id.imageBtn2:
                 ImageClick(v);
                 message[8] = 0x07;
                 sendMessage(message);
-                paowei();
+//                paowei();
                 break;
             case R.id.imageBtn3:
                 ImageClick(v);
                 message[8] = 0x06;
                 sendMessage(message);
-                paowei();
+//                paowei();
                 break;
             case R.id.imageBtn4:
                 ImageClick(v);
                 message[8] = 0x05;
                 sendMessage(message);
-                paowei();
+//                paowei();
                 break;
             case R.id.imageBtn5:
                 ImageClick(v);
                 message[8] = 0x04;
                 sendMessage(message);
-                paowei();
+//                paowei();
                 break;
             case R.id.imageBtn6:
                 ImageClick(v);
                 message[8] = 0x03;
                 sendMessage(message);
-                paowei();
+//                paowei();
                 break;
             case R.id.imageBtn7:
                 ImageClick(v);
                 message[8] = 0x02;
                 sendMessage(message);
-                paowei();
+//                paowei();
                 break;
             case R.id.imageBtn8:
                 ImageClick(v);
                 message[8] = 0x01;
                 sendMessage(message);
-                paowei();
+//                paowei();
                 break;
             case R.id.title_back:
                 Intent intent = new Intent(SendActivity.this, MainActivity.class);
@@ -384,17 +384,36 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                     storage.setText(storageAll);
                 }else if (i == 4){//炮位状态
 //                    int cannon8 = Integer.parseInt(read_array[4],16);
+
                     int cannon8 = m_receive_data_down1[4];
-                    if (cannon8<0){
+                    System.out.println("cannon8:1"  + cannon8);
+                    if (cannon8 < 0 ) {
                         cannon8 += 256;
                     }
+                    System.out.println("cannon8:2"  + cannon8);
+
+//
+//                    int cannon8 = m_receive_data_down1[4];
+//                    if (cannon8<0){
+//                        cannon8 += 256;
+//                    }
                     String cannon8Status= Integer.toBinaryString(cannon8);
+                    System.out.println("cannon8Status的值：" + cannon8Status);
                     int x = cannon8Status.length();
-                    for (int a=0;a<x;a++){
-                        Log.i("ss",a + ":" + String.valueOf(cannon8Status.charAt(a)));
+                    System.out.println("x 的长度：" + x);
+                    StringBuffer cannon8Status2 = new StringBuffer();
+                    if (x < 8){
+                         cannon8Status2.append("0").append(cannon8Status);
+                    }else {
+                        cannon8Status2.append(cannon8Status);
+                    }
+                    int x1 = cannon8Status2.length();
+                    System.out.println("x1 的长度：" + x1);
+                    for (int a=0;a<x1;a++){
+                        Log.i("ss",a + ":" + String.valueOf(cannon8Status2.charAt(a)));
                         switch (a){
                             case 0:
-                                cannon0 = String.valueOf(cannon8Status.charAt(0)) ;
+                                cannon0 = String.valueOf(cannon8Status2.charAt(0)) ;
                                 if (cannon0.equals("1")){
                                     shellNums++;
                                     imageButton1.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
@@ -403,7 +422,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 break;
                             case 1:
-                                cannon1 = String.valueOf(cannon8Status.charAt(1));
+                                cannon1 = String.valueOf(cannon8Status2.charAt(1));
                                 if (cannon1.equals("1")){
                                     shellNums++;
                                     imageButton2.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
@@ -412,7 +431,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 break;
                             case 2:
-                                cannon2 = String.valueOf(cannon8Status.charAt(2));
+                                cannon2 = String.valueOf(cannon8Status2.charAt(2));
                                 if (cannon2.equals("1")){
                                     shellNums++;
                                     imageButton3.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
@@ -421,7 +440,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 break;
                             case 3:
-                                cannon3 = String.valueOf(cannon8Status.charAt(3));
+                                cannon3 = String.valueOf(cannon8Status2.charAt(3));
                                 if (cannon3.equals("1")){
                                     shellNums++;
                                     imageButton4.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
@@ -430,7 +449,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 break;
                             case 4:
-                                cannon4 = String.valueOf(cannon8Status.charAt(4));
+                                cannon4 = String.valueOf(cannon8Status2.charAt(4));
                                 if (cannon4.equals("1")){
                                     shellNums++;
                                     imageButton5.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
@@ -439,7 +458,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 break;
                             case 5:
-                                cannon5 = String.valueOf(cannon8Status.charAt(5));
+                                cannon5 = String.valueOf(cannon8Status2.charAt(5));
                                 if (cannon5.equals("1")){
                                     shellNums++;
                                     imageButton6.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
@@ -448,7 +467,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 break;
                             case 6:
-                                cannon6 = String.valueOf(cannon8Status.charAt(6));
+                                cannon6 = String.valueOf(cannon8Status2.charAt(6));
                                 if (cannon6.equals("1")){
                                     shellNums++;
                                     imageButton7.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
@@ -457,7 +476,7 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                                 break;
                             case 7:
-                                cannon7 = String.valueOf(cannon8Status.charAt(7));
+                                cannon7 = String.valueOf(cannon8Status2.charAt(7));
                                 if (cannon7.equals("1")){
                                     shellNums++;
                                     imageButton8.setImageDrawable(getResources().getDrawable(R.drawable.credit_level_filling));
@@ -486,9 +505,11 @@ public class SendActivity extends AppCompatActivity implements View.OnClickListe
 
     private void paowei() {
         int cannon8 = m_receive_data_down1[4];
-        if (cannon8 < 0) {
+        System.out.println("cannon8:1"  + cannon8);
+        if (cannon8 < 0 ) {
             cannon8 += 256;
         }
+        System.out.println("cannon8:2"  + cannon8);
         String cannon8Status = Integer.toBinaryString(cannon8);
         int x = cannon8Status.length();
         for (int a = 0; a < x; a++) {
