@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
@@ -16,7 +19,10 @@ import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -27,6 +33,11 @@ public class MainActivity extends AppCompatActivity implements AMap.OnMapLoadedL
     private LatLng centerPoint = new LatLng(30.7839, 114.2268);// 中心点：天河机场综合中心
     private Marker centerMarker;
     private boolean isFirstLoc = true;
+
+
+    private AMapLocationClientOption mLocationClientOption = null;
+    private AMapLocationClient mLocationClient = null;
+
 
     //定义获取蓝牙信息的按钮
     private Button GetBleInfo;
